@@ -29,5 +29,9 @@
       <h2 id="current-calculation">0</h2>
       <h2>Result: <span id="current-result">0</span></h2>
     </section>
+    <script src="assets/scripts/vendor.js"></script>
+    <!-- vendor.js를 먼저 작성해야함. app.js에서 작성할 코드가 vendor.js파일 내의 코드에 의존하기 때문에 -->
+    <script src="assets/scripts/app.js"></script>
+    <!-- head에 작성하지 않고 body에 작성하면 화면 부터 뜬다고 했는데 알림부터 뜸.. why? -->
   </body>
 </html>
