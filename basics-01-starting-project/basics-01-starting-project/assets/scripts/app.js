@@ -1,8 +1,66 @@
 const defaultResult = 0;
 let currentResult = defaultResult;
+let logEntries = [];
 
-function add(num1, num2) { // 함수가 전역변수를 이용해서 값을 반환 하는것은 bad, 전역변수 값을 수정하는건 ok
-    currentResult = currentResult + userInput.value;
+function getUserNumberInput() {
+    return parseInt(userInput.value);
 }
 
-addBtn.addEventListener('click', add); // 클릭 했을때 add 함수를 찾아서 호출해라!
+function createAndWriteOutput(operator, resultBeforeCalc, calcNumber) {
+    const calcDescription = `${resultBeforeCalc} ${operator} ${calcNumber}`;
+    outputResult(currentResult, calcDescription);
+}
+
+function writeToLog(
+    operationIdentifier,
+    prevResult,
+    operationNumber,
+    newResult
+) {
+    const logEntry = {
+        operation: operationIdentifier,
+        prevResult: prevResult,
+        number: operationNumber,
+        result: newResult
+    };
+    logEntries.push(logEntry);
+    console.log(logEntries);
+}
+
+function add() {
+    const enteredNumber = getUserNumberInput();
+    const initialResult = currentResult;
+    currentResult += enteredNumber;
+    createAndWriteOutput('+', initialResult, enteredNumber);
+    writeToLog('ADD', initialResult, enteredNumber, currentResult);
+}
+
+function subtract() {
+    const enteredNumber = getUserNumberInput();
+    const initialResult = currentResult;
+    currentResult -= enteredNumber;
+    createAndWriteOutput('-', initialResult, enteredNumber);
+    writeToLog('SUBTRACT', initialResult, enteredNumber, currentResult);
+    
+}
+
+function multiply() {
+    const enteredNumber = getUserNumberInput();
+    const initialResult = currentResult;
+    currentResult *= enteredNumber;
+    createAndWriteOutput('*', initialResult, enteredNumber);
+    writeToLog('MULTIPLY', initialResult, enteredNumber, currentResult);
+}
+
+function divide() {
+    const enteredNumber = getUserNumberInput();
+    const initialResult = currentResult;
+    currentResult /= enteredNumber;
+    createAndWriteOutput('/', initialResult, enteredNumber);
+    writeToLog('DIVDE', initialResult, enteredNumber, currentResult);
+}
+
+addBtn.addEventListener('click', add);
+subtractBtn.addEventListener('click', subtract);
+multiplyBtn.addEventListener('click', multiply);
+divideBtn.addEventListener('click', divide);
