@@ -227,7 +227,28 @@ function healPlayerHandler() {
 }
 
 function printLogHandler() {
-    console.log(battleLog);
+    for (let i = 0; i < 3; i++) {
+        console.log('-----------');
+    }
+    // for (let i = 10; i >0; ){
+    //     i--;
+    //     console.log(i);
+    // }
+    // for ( let i = 0; i < battleLog.length; i++) {
+    //     console.log(battleLog[i]);
+    // }
+    let i =0;
+    for(const logEntry of battleLog) {
+        console.log(`#${i}`);
+        // 여기에 key라고 적어서 key값에 접근가능한것이 아니라 for-in 자체가 객체의 key에 접근하게 하는것
+        // key라고 안하고 아무말이나 써도됨. 상수이므로
+        for(const key in logEntry) {
+            console.log(`${key} => ${logEntry[key]}`);
+            // console.log(logEntry[key]); 상수 내에 저장된 값을 가져오도록 해서 그 이름을 가진(key) property에 접근
+            
+        }
+        i++
+    }
 }
 
 attackBtn.addEventListener('click', attackHandler);
