@@ -17,6 +17,7 @@ const enteredValue = prompt('Maximum life for you and the monster.', '100');
 
 let chosenMaxLife = parseInt(enteredValue);
 let battleLog = [];
+let lastLoggedEntry;
 
 // js는 a or b에서 a가 참이면 b는 확인 안한다!
 if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
@@ -230,6 +231,19 @@ function printLogHandler() {
     for (let i = 0; i < 3; i++) {
         console.log('-----------');
     }
+    let j = 3;
+    do {
+        console.log(j);
+        j++;
+    } while (j < 3);
+
+    // while문을 이렇게 쓸꺼면 for문을 쓰는게 낫다  
+    // let j = 0;
+    // while (j < 3) {
+    //     console.log('------------');
+    //     j++;
+    // } 
+
     // for (let i = 10; i >0; ){
     //     i--;
     //     console.log(i);
@@ -237,17 +251,22 @@ function printLogHandler() {
     // for ( let i = 0; i < battleLog.length; i++) {
     //     console.log(battleLog[i]);
     // }
-    let i =0;
+
+    // show log 클릭할때마다 i는 0부터 다시 시작하는것
+    let i = 0;
     for(const logEntry of battleLog) {
-        console.log(`#${i}`);
-        // 여기에 key라고 적어서 key값에 접근가능한것이 아니라 for-in 자체가 객체의 key에 접근하게 하는것
-        // key라고 안하고 아무말이나 써도됨. 상수이므로
-        for(const key in logEntry) {
-            console.log(`${key} => ${logEntry[key]}`);
-            // console.log(logEntry[key]); 상수 내에 저장된 값을 가져오도록 해서 그 이름을 가진(key) property에 접근
-            
+        if (!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i){
+            console.log(`#${i}`);
+            // 여기에 key라고 적어서 key값에 접근가능한것이 아니라 for-in 자체가 객체의 key에 접근하게 하는것
+            // key라고 안하고 아무말이나 써도됨. 상수이므로
+            for(const key in logEntry) {
+                console.log(`${key} => ${logEntry[key]}`);
+                // console.log(logEntry[key]); 상수 내에 저장된 값을 가져오도록 해서 그 이름을 가진(key) property에 접근    
+            }
+            lastLoggedEntry = i;
         }
-        i++
+        i++;
+        break;
     }
 }
 
