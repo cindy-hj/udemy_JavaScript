@@ -13,16 +13,34 @@ const LOG_EVENT_MONSTER_ATTACK = 'MONSTER_ATTACK';
 const LOG_EVENT_PLAYER_HEAL = 'PLAYER_HEAL';
 const LOG_EVENT_GAME_OVER = 'GAME_OVER';
 
-const enteredValue = prompt('Maximum life for you and the monster.', '100');
-
-let chosenMaxLife = parseInt(enteredValue);
 let battleLog = [];
 let lastLoggedEntry;
 
-// js는 a or b에서 a가 참이면 b는 확인 안한다!
-if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
-    chosenMaxLife = 100;
+function getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster.', '100');
+    const parsedValue = parseInt(enteredValue);
+
+    // js는 a or b에서 a가 참이면 b는 확인 안한다!    
+    if (isNaN(parsedValue) || parsedValue <= 0) {
+        throw { message: 'Invalid user input, not a number!'};
+    }
+    return parsedValue;
 }
+
+let chosenMaxLife;
+
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
+    // fall back 로직!
+    // try 코드가 실패하면 오류가 발생해서 성공적으로 실행되지 않지만 catch 코드는 실행되기 때문에 이때 작동하는 코드 값으로 오류를 해결할 수 있다.
+    // 항상 오류를 해결할 수 있는 것은 아님  ex)서버가 오프라인이라면 할수 있는게 없고 사용자에게 알려주는수밖에..
+    chosenMaxLife = 100;
+    alert('You entered something wrong, default value of 100 was used.');
+    // throw error;
+} 
+
 
 let currentMonsterHealth = chosenMaxLife;
 let currentPlayerHealth = chosenMaxLife;
@@ -231,9 +249,17 @@ function printLogHandler() {
     for (let i = 0; i < 3; i++) {
         console.log('-----------');
     }
-    let j = 3;
-    do {
-        console.log(j);
+    let j = 0;
+    outerWhile: do {
+        console.log('Outer', j);
+        innerFor: for (let k = 0; k < 5; k++) {
+            if (k === 3) {
+                break outerWhile;
+                // continue outerWhile; // 위험! => 무한 반복문
+            }
+            
+            console.log('Inner', k);
+        }
         j++;
     } while (j < 3);
 
@@ -252,7 +278,8 @@ function printLogHandler() {
     //     console.log(battleLog[i]);
     // }
 
-    // show log 클릭할때마다 i는 0부터 다시 시작하는것
+    // 바깥 for문에 break를 걸면 show log 클릭할때마다 i는 0부터 다시 시작하는것
+    // if문에 break를 걸면 바깥 for문이 한번 돌고 멈추지만 증가된 i값이 저장됨???
     let i = 0;
     for(const logEntry of battleLog) {
         if (!lastLoggedEntry && lastLoggedEntry !== 0 || lastLoggedEntry < i){
@@ -264,9 +291,9 @@ function printLogHandler() {
                 // console.log(logEntry[key]); 상수 내에 저장된 값을 가져오도록 해서 그 이름을 가진(key) property에 접근    
             }
             lastLoggedEntry = i;
+            break;
         }
         i++;
-        break;
     }
 }
 
